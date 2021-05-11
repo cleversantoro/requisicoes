@@ -7,15 +7,10 @@ import { Model } from './model';
 
 export abstract class ServiceFirebase<T extends Model> implements ICrud<T> {
 
+
   ref: AngularFirestoreCollection<T>
 
-  constructor(
-    protected type: { new(): T; },
-    protected firestore:
-    AngularFirestore,
-    public caminho: string
-  )
-  {
+  constructor(protected type: { new(): T; }, protected firestore: AngularFirestore, public caminho: string) {
     this.ref = this.firestore.collection<T>(this.caminho);
   }
 
@@ -30,7 +25,6 @@ export abstract class ServiceFirebase<T extends Model> implements ICrud<T> {
 
   createOrUpdate(item: T): Promise<any> {
     let id = item.id;
-
     if (!item)
       return
     let obj = null;
@@ -61,5 +55,6 @@ export abstract class ServiceFirebase<T extends Model> implements ICrud<T> {
     let typed = plainToClass(this.type, obj)
     return typed;
   }
+
 
 }
